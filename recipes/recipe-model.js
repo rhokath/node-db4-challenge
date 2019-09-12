@@ -15,7 +15,8 @@ function getRecipes(){
 function getShoppingList(id){
     return db('recipes')
     .select('ingredients.ingredient')
-    .join('ingredients', 'recipes.id', 'ingredients.id')
+    .join('recipe_ingredients', 'recipe_ingredients.recipe_id', 'recipes.id')
+    .join('ingredients', 'ingredients.id', 'recipe_ingredients.ingredient_id' )
     .where({"recipes.id": id})
 
 }
@@ -23,8 +24,8 @@ function getShoppingList(id){
 function getInstructions(id){
     return db('recipes')
     .select(['instructions.step_number', 'instructions.step_text'])
-    .join('instructions', 'recipes.id', 'instructions.id')
+    .join('instructions', 'recipes.id', 'instructions.recipe_id')
     .where({"recipes.id": id})
-    .orderBy('instructions.step_number')
+    .orderBy('instructions.step_number', 'asc')
 
 }
